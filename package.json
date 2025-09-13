@@ -1,8 +1,17 @@
 {
-    "scripts": {
-    "dev": "node main.jsx"
+  "name": "mangoshare-server",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/main.js",
+    "dev": "ts-node main.tsx"
   },
   "dependencies": {
-    "socket.io": "^4.8.1"
+    "socket.io": "^4.7.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "@types/node": "^20.0.0",
+    "ts-node": "^10.9.0"
   }
 }
