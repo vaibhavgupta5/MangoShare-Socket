@@ -1,6 +1,8 @@
 {
   "name": "mangoshare-server",
   "version": "1.0.0",
+  "description": "MangoShare Socket.IO server for peer-to-peer file sharing",
+  "main": "dist/main.js",
   "scripts": {
     "build": "tsc",
     "start": "node dist/main.js",
@@ -12,6 +14,10 @@
   "devDependencies": {
     "typescript": "^5.0.0",
     "@types/node": "^20.0.0",
+    "@types/socket.io": "^3.0.0",
     "ts-node": "^10.9.0"
+  },
+  "engines": {
+    "node": ">=16.0.0"
   }
 }
