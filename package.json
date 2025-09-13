@@ -4,6 +4,7 @@
   "description": "MangoShare Socket.IO server for peer-to-peer file sharing",
   "main": "dist/main.js",
   "scripts": {
+    "prebuild": "npm install",
     "build": "tsc",
     "start": "node dist/main.js",
     "dev": "ts-node main.tsx"
@@ -14,6 +15,7 @@
   "devDependencies": {
     "typescript": "^5.0.0",
     "@types/node": "^20.0.0",
+    "@types/socket.io": "^3.0.0",
     "ts-node": "^10.9.0"
   },
   "engines": {

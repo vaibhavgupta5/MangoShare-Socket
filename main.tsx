@@ -1,4 +1,4 @@
-import { Server } from "socket.io";
+import { Server, Socket } from "socket.io";
 
 const io = new Server({
   cors: {
@@ -12,7 +12,7 @@ interface FileMeta {
   size: number;
 }
 
-io.on("connection", (socket) => {
+io.on("connection", (socket: Socket) => {
   socket.on("join-room", (roomId: string) => {
     const room = io.sockets.adapter.rooms.get(roomId);
     const numClients = room ? room.size : 0;
@@ -58,6 +58,6 @@ io.on("connection", (socket) => {
   });
 });
 
-const PORT = 4000;
+const PORT = parseInt(process.env.PORT || "4000", 10);
 io.listen(PORT);
-console.log(`Socket.IO server running on port ${PORT}`);
+console.log(`🥭 MangoShare Socket.IO server running on port ${PORT}`);
