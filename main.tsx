@@ -1,10 +1,5 @@
 import { Server, Socket } from "socket.io";
-
-const io = new Server({
-  cors: {
-    origin: '*',
-  },
-});
+import http from "http";
 
 interface FileMeta {
   filename: string;
@@ -12,14 +7,28 @@ interface FileMeta {
   size: number;
 }
 
+const PORT = parseInt(process.env.PORT || "4000", 10);
+
+// Create HTTP server
+const httpServer = http.createServer();
+
+// Attach Socket.IO to HTTP server
+const io = new Server(httpServer, {
+  cors: {
+    origin: "*",
+  },
+});
+
 io.on("connection", (socket: Socket) => {
   socket.on("join-room", (roomId: string) => {
     const room = io.sockets.adapter.rooms.get(roomId);
     const numClients = room ? room.size : 0;
+
     if (numClients >= 2) {
       socket.emit("room-full", roomId);
       return;
     }
+
     socket.join(roomId);
     socket.to(roomId).emit("user-joined", socket.id);
     socket.emit("joined-room", roomId);
@@ -45,6 +54,7 @@ io.on("connection", (socket: Socket) => {
       if (roomId !== socket.id) {
         socket.to(roomId).emit("user-left", socket.id);
         const room = io.sockets.adapter.rooms.get(roomId);
+
         if (!room || room.size < 2) {
           if (room && room.size === 1) {
             const [senderId] = Array.from(room);
@@ -58,6 +68,7 @@ io.on("connection", (socket: Socket) => {
   });
 });
 
-const PORT = parseInt(process.env.PORT || "4000", 10);
-io.listen(PORT);
-console.log(`🥭 MangoShare Socket.IO server running on port ${PORT}`);
+// Start HTTP server
+httpServer.listen(PORT, () => {
+  console.log(`🥭 MangoShare Socket.IO server running on port ${PORT}`);
+});
